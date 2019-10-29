@@ -53,32 +53,32 @@ public class Bean {
             this.id = UUID.randomUUID();
         }
 
-        public Builder name(String name) {
+        public Builder setName(String name) {
             this.name = name;
             return this;
         }
 
-        public Builder notes(String notes) {
+        public Builder setNotes(String notes) {
             this.notes = notes;
             return this;
         }
 
-        public Builder origin(String origin) {
+        public Builder setOrigin(String origin) {
             this.origin = origin;
             return this;
         }
 
-        public Builder supplier(String supplier) {
+        public Builder setSupplier(String supplier) {
             this.supplier = supplier;
             return this;
         }
 
-        public Builder url(String url) {
+        public Builder setUrl(String url) {
             this.url = url;
             return this;
         }
 
-        public Builder rating(double rating) {
+        public Builder setRating(double rating) {
             this.rating = rating;
             return this;
         }
