@@ -1,4 +1,7 @@
+import java.io.IOException;
+import java.util.Objects;
 import java.util.UUID;
+import org.codehaus.jackson.map.ObjectMapper;
 
 public class Bean {
     private UUID id;
@@ -37,6 +40,32 @@ public class Bean {
 
     public double getRating() {
         return rating;
+    }
+
+    public String toJson() {
+        String jsonString = new String();
+        ObjectMapper objMapper = new ObjectMapper();
+
+        try {
+            jsonString = objMapper.writeValueAsString(this);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return jsonString;
+    }
+
+    @Override
+    public String toString() {
+        return "Bean{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", notes='" + notes + '\'' +
+                ", origin='" + origin + '\'' +
+                ", supplier='" + supplier + '\'' +
+                ", url='" + url + '\'' +
+                ", rating=" + rating +
+                '}';
     }
 
     public static class Builder {
