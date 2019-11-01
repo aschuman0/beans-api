@@ -3,6 +3,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 @Path("api")
 public class BeansApi {
@@ -16,15 +18,17 @@ public class BeansApi {
     @GET
     @Path("coffee")
     @Produces(MediaType.APPLICATION_JSON)
-    public Bean getAll() {
-        return new Bean.Builder()
-                .setName("This is coffee")
-                .setNotes("Damn fine")
-                .setOrigin("Sumatra")
-                .setRating(4.5)
-                .setSupplier("Sweet Marias")
-                .setUrl("internet")
-                .build();
+    public Response getAll() {
+        Bean bean =  new Bean.Builder()
+                        .setName("This is coffee")
+                        .setNotes("Damn fine")
+                        .setOrigin("Sumatra")
+                        .setRating(4.5)
+                        .setSupplier("Sweet Marias")
+                        .setUrl("internet")
+                        .build();
+
+        return Response.status(Status.OK).entity(bean.toJson()).build();
     }
 
     @GET
