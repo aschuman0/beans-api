@@ -1,5 +1,6 @@
+package com.aschuman.beansApi;
+
 import java.io.IOException;
-import java.util.Objects;
 import java.util.UUID;
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -57,7 +58,7 @@ public class Bean {
 
     @Override
     public String toString() {
-        return "Bean{" +
+        return "com.aschuman.beansApi.Bean{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", notes='" + notes + '\'' +
