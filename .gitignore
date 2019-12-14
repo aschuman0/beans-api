@@ -25,3 +25,7 @@ hs_err_pid*
 # intellij idea things
 .idea/
 *.iml
+
+# gcloud and deployment
+appengine-web.xml
+app.yaml
