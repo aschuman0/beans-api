@@ -9,7 +9,10 @@ import java.util.Date;
 import java.util.UUID;
 import org.codehaus.jackson.map.ObjectMapper;
 import javax.sql.DataSource;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement(name = "product")
 public class Bean {
     public UUID id;
     public String name;
@@ -21,30 +24,37 @@ public class Bean {
 
     private Bean() { this.id = UUID.randomUUID(); }
 
+    @XmlElement(name = "id")
     public UUID getId() {
         return id;
     }
 
+    @XmlElement(name = "name")
     public String getName() {
         return name;
     }
 
+    @XmlElement(name = "notes")
     public String getNotes() {
         return notes;
     }
 
+    @XmlElement(name = "origin")
     public String getOrigin() {
         return origin;
     }
 
+    @XmlElement(name = "supplier")
     public String getSupplier() {
         return supplier;
     }
 
+    @XmlElement(name = "url")
     public String getUrl() {
         return url;
     }
 
+    @XmlElement(name = "rating")
     public double getRating() {
         return rating;
     }
@@ -107,8 +117,11 @@ public class Bean {
         private String url;
         private int rating;
 
-        public Builder() {
-            this.id = UUID.randomUUID();
+        public Builder() { }
+
+        public Builder setId(String bean_id) {
+            this.id = UUID.fromString(bean_id);
+            return this;
         }
 
         public Builder setName(String name) {
