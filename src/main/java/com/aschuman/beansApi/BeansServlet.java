@@ -60,6 +60,23 @@ public class BeansServlet {
                 .build();
     }
 
+    @DELETE
+    @Path("coffee/{id}")
+    public Response deleteById(@PathParam("id") String id) {
+        DataSource pool = (DataSource) servletContext.getAttribute("my-pool");
+        try (Connection conn = pool.getConnection()) {
+            PreparedStatement deleteById = conn.prepareStatement(
+                    "DELETE from beans WHERE bean_id = ?"
+            );
+            deleteById.setString(1, id);
+            deleteById.execute();
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+        }
+
+        return Response.status(Status.OK).build();
+    }
+
     @GET
     @Path("coffee/{id}")
     @Produces(MediaType.APPLICATION_JSON)
