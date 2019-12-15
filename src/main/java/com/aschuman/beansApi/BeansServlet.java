@@ -1,30 +1,24 @@
 package com.aschuman.beansApi;
 
-        import jdk.nashorn.internal.objects.annotations.Constructor;
-
-        import javax.servlet.ServletContext;
-        import javax.servlet.http.HttpServletRequest;
-        import javax.sql.DataSource;
-        import javax.ws.rs.*;
-        import javax.ws.rs.core.GenericEntity;
-        import javax.ws.rs.core.MediaType;
-        import javax.ws.rs.core.Context;
-        import javax.ws.rs.core.Response;
-        import javax.ws.rs.core.Response.Status;
-        import java.io.IOException;
-        import java.sql.Connection;
-        import java.sql.PreparedStatement;
-        import java.sql.ResultSet;
-        import java.sql.SQLException;
-        import java.util.ArrayList;
-        import java.util.List;
+import javax.servlet.ServletContext;
+import javax.sql.DataSource;
+import javax.ws.rs.*;
+import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Path("api")
 public class BeansServlet {
     @Context
     private ServletContext servletContext;
-    @Context
-    private HttpServletRequest httpServletRequest;
 
     @GET
     @Path("coffee")

@@ -102,11 +102,6 @@ public class ConnectionPoolContextListener implements ServletContextListener {
     private void createTable(DataSource pool) throws SQLException {
         // Safely attempt to create the table schema.
         try (Connection conn = pool.getConnection()) {
-//            PreparedStatement createTableStatement = conn.prepareStatement( // TODO - Prep beans table here
-//                    "CREATE TABLE IF NOT EXISTS votes ( "
-//                            + "vote_id SERIAL NOT NULL, time_cast timestamp NOT NULL, candidate CHAR(6) NOT NULL,"
-//                            + " PRIMARY KEY (vote_id) );"
-//            );
             PreparedStatement createTableStatement = conn.prepareStatement(
                     "CREATE TABLE IF NOT EXISTS beans ( " +
                             "bean_id VARCHAR(64) NOT NULL, created TIMESTAMP NOT NULL, name VARCHAR(64) NOT NULL, origin VARCHAR(64) NOT NULL, supplier VARCHAR(64) NOT NULL, url VARCHAR(256) NOT NULL, rating TINYINT NOT NULL, notes VARCHAR(1048) NOT NULL, " +
