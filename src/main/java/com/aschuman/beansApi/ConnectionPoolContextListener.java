@@ -30,7 +30,7 @@ import javax.sql.DataSource;
 @WebListener("Creates a connection pool that is stored in the Servlet's context for later use.")
 public class ConnectionPoolContextListener implements ServletContextListener {
 
-    private static final Logger LOGGER = Logger.getLogger(BeansServelet.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(BeansServlet.class.getName());
 
     // Saving credentials in environment variables is convenient, but not secure - consider a more
     // secure solution such as https://cloud.google.com/kms/ to help keep secrets safe.
@@ -102,10 +102,15 @@ public class ConnectionPoolContextListener implements ServletContextListener {
     private void createTable(DataSource pool) throws SQLException {
         // Safely attempt to create the table schema.
         try (Connection conn = pool.getConnection()) {
+//            PreparedStatement createTableStatement = conn.prepareStatement( // TODO - Prep beans table here
+//                    "CREATE TABLE IF NOT EXISTS votes ( "
+//                            + "vote_id SERIAL NOT NULL, time_cast timestamp NOT NULL, candidate CHAR(6) NOT NULL,"
+//                            + " PRIMARY KEY (vote_id) );"
+//            );
             PreparedStatement createTableStatement = conn.prepareStatement(
-                    "CREATE TABLE IF NOT EXISTS votes ( "
-                            + "vote_id SERIAL NOT NULL, time_cast timestamp NOT NULL, candidate CHAR(6) NOT NULL,"
-                            + " PRIMARY KEY (vote_id) );"
+                    "CREATE TABLE IF NOT EXISTS beans ( " +
+                            "bean_id VARCHAR(64) NOT NULL, created TIMESTAMP NOT NULL, name VARCHAR(64) NOT NULL, origin VARCHAR(64) NOT NULL, supplier VARCHAR(64) NOT NULL, url VARCHAR(256) NOT NULL, rating TINYINT NOT NULL, notes VARCHAR(1048) NOT NULL, " +
+                            " PRIMARY KEY (bean_id) );"
             );
             createTableStatement.execute();
         }
