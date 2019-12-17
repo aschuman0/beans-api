@@ -1,43 +1,60 @@
+package com.aschuman.beansApi;
+
 import java.io.IOException;
-import java.util.Objects;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.UUID;
 import org.codehaus.jackson.map.ObjectMapper;
+import javax.sql.DataSource;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement(name = "product")
 public class Bean {
-    private UUID id;
-    private String name;
-    private String notes;
-    private String origin;
-    private String supplier;
-    private String url;
-    private double rating;
+    public UUID id;
+    public String name;
+    public String notes;
+    public String origin;
+    public String supplier;
+    public String url;
+    public int rating;
 
-    private Bean() {}
+    private Bean() { this.id = UUID.randomUUID(); }
 
+    @XmlElement(name = "id")
     public UUID getId() {
         return id;
     }
 
+    @XmlElement(name = "name")
     public String getName() {
         return name;
     }
 
+    @XmlElement(name = "notes")
     public String getNotes() {
         return notes;
     }
 
+    @XmlElement(name = "origin")
     public String getOrigin() {
         return origin;
     }
 
+    @XmlElement(name = "supplier")
     public String getSupplier() {
         return supplier;
     }
 
+    @XmlElement(name = "url")
     public String getUrl() {
         return url;
     }
 
+    @XmlElement(name = "rating")
     public double getRating() {
         return rating;
     }
@@ -55,9 +72,31 @@ public class Bean {
         return jsonString;
     }
 
+    public void createInDb(DataSource pool) throws SQLException {
+        Timestamp now = new Timestamp(new Date().getTime());
+
+        try (Connection conn = pool.getConnection()) {
+            PreparedStatement createBean = conn.prepareStatement(
+                    "INSERT INTO beans " +
+                            "(bean_id, created, name, origin, supplier, url, rating, notes)" +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
+            );
+            createBean.setString(1, this.getId().toString());
+            createBean.setTimestamp(2, now);
+            createBean.setString(3, this.getName());
+            createBean.setString(4, this.getOrigin());
+            createBean.setString(5, this.getSupplier());
+            createBean.setString(6, this.getUrl());
+            createBean.setInt(7, (int) this.getRating());
+            createBean.setString(8, this.getNotes());
+
+            createBean.execute();
+        }
+    }
+
     @Override
     public String toString() {
-        return "Bean{" +
+        return "com.aschuman.beansApi.Bean{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", notes='" + notes + '\'' +
@@ -76,10 +115,13 @@ public class Bean {
         private String origin;
         private String supplier;
         private String url;
-        private double rating;
+        private int rating;
 
-        public Builder() {
-            this.id = UUID.randomUUID();
+        public Builder() { }
+
+        public Builder setId(String bean_id) {
+            this.id = UUID.fromString(bean_id);
+            return this;
         }
 
         public Builder setName(String name) {
@@ -107,7 +149,7 @@ public class Bean {
             return this;
         }
 
-        public Builder setRating(double rating) {
+        public Builder setRating(int rating) {
             this.rating = rating;
             return this;
         }
